@@ -15,7 +15,7 @@ namespace AsefileSharp {
         public Header Header { get; private set; }
         public List<Frame> Frames { get; private set; }
 
-        private Dictionary<Type, Chunk> chunkCache = new Dictionary<Type, Chunk>();
+        private readonly Dictionary<Type, Chunk> chunkCache = new Dictionary<Type, Chunk>();
         private readonly ITextureBuilder _builder;
         private readonly Texture2DBlender _blender;
 
