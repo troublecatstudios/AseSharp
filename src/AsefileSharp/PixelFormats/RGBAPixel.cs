@@ -1,5 +1,11 @@
 ﻿namespace AsefileSharp.PixelFormats {
     public class RGBAPixel : Pixel {
+        /// <summary>
+        /// Gets the color.
+        /// </summary>
+        /// <value>
+        /// The color.
+        /// </value>
         public byte[] Color { get; private set; }
 
         public RGBAPixel(Frame frame, byte[] color) : base(frame) {

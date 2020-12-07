@@ -19,7 +19,21 @@ namespace AsefileSharp {
         public const int HEADER_SIZE = 6;
 
         protected Frame Frame = null;
+
+        /// <summary>
+        /// Gets the length of the chunk in bytes.
+        /// </summary>
+        /// <value>
+        /// The length.
+        /// </value>
         public uint Length { get; private set; }
+
+        /// <summary>
+        /// Gets the type of the chunk.
+        /// </summary>
+        /// <value>
+        /// The type of the chunk.
+        /// </value>
         public ChunkType ChunkType { get; private set; }
 
         public Chunk(uint length, ChunkType type) {
@@ -27,6 +41,12 @@ namespace AsefileSharp {
             ChunkType = type;
         }
 
+        /// <summary>
+        /// Reads a chunk from a binary stream.
+        /// </summary>
+        /// <param name="frame">The frame.</param>
+        /// <param name="reader">The reader.</param>
+        /// <returns></returns>
         public static Chunk ReadChunk(Frame frame, BinaryReader reader) {
             uint length = reader.ReadUInt32();
             ChunkType type = (ChunkType)reader.ReadUInt16();

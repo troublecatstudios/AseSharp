@@ -4,65 +4,52 @@
 // Page 333
 namespace AsefileSharp.Utils {
     public class Texture2DBlender {
-        private readonly ITextureBuilder _builder;
+        public PixelBucket Normal(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-        public Texture2DBlender(ITextureBuilder builder) {
-            _builder = builder;
-        }
-
-        public ITexture Normal(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
-
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
-
-                    var c = new InternalColor();
-
-                    c = ((1f - b.a) * a) + (b.a * b);
+                    var c = ((1f - b.a) * a) + (b.a * b);
                     c.a = a.a + b.a * (1f - a.a);
 
                     newLayer.SetPixel(x, y, c);
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture Multiply(ITexture baseLayer, ITexture layer, float opacity) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Multiply(PixelBucket baseLayer, PixelBucket layer, float opacity) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
-                    var c = new InternalColor();
-
-                    c.r = (a.r) * (opacity * (1f - b.a * (1f - b.r)));
-                    c.g = (a.g) * (opacity * (1f - b.a * (1f - b.g)));
-                    c.b = (a.b) * (opacity * (1f - b.a * (1f - b.b)));
-                    c.a = a.a + b.a * (1f - a.a);
+                    var c = new InternalColor {
+                        r = (a.r) * (opacity * (1f - b.a * (1f - b.r))),
+                        g = (a.g) * (opacity * (1f - b.a * (1f - b.g))),
+                        b = (a.b) * (opacity * (1f - b.a * (1f - b.b))),
+                        a = a.a + b.a * (1f - a.a)
+                    };
 
                     newLayer.SetPixel(x, y, c);
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
 
-        public ITexture Screen(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Screen(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
@@ -72,16 +59,14 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture Overlay(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Overlay(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
@@ -114,25 +99,22 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture Darken(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Darken(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
-                    var c = new InternalColor();
-
-
-                    c.r = InternalMath.Min(a.r, b.r);
-                    c.g = InternalMath.Min(a.g, b.g);
-                    c.b = InternalMath.Min(a.b, b.b);
+                    var c = new InternalColor {
+                        r = InternalMath.Min(a.r, b.r),
+                        g = InternalMath.Min(a.g, b.g),
+                        b = InternalMath.Min(a.b, b.b)
+                    };
 
                     c = ((1f - b.a) * a) + (b.a * c);
                     c.a = a.a + b.a * (1f - a.a);
@@ -141,24 +123,22 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture Lighten(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Lighten(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
-                    var c = new InternalColor();
-
-                    c.r = ColorBlends.Lighten(a.r, b.r);
-                    c.g = ColorBlends.Lighten(a.g, b.g);
-                    c.b = ColorBlends.Lighten(a.b, b.b);
+                    var c = new InternalColor {
+                        r = ColorBlends.Lighten(a.r, b.r),
+                        g = ColorBlends.Lighten(a.g, b.g),
+                        b = ColorBlends.Lighten(a.b, b.b)
+                    };
 
                     c = ((1f - b.a) * a) + (b.a * c);
                     c.a = a.a + b.a * (1f - a.a);
@@ -167,25 +147,22 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture ColorDodge(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket ColorDodge(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
-                    var c = new InternalColor();
-
-
-                    c.r = ColorBlends.ColorDodge(a.r, b.r);
-                    c.g = ColorBlends.ColorDodge(a.g, b.g);
-                    c.b = ColorBlends.ColorDodge(a.b, b.b);
+                    var c = new InternalColor {
+                        r = ColorBlends.ColorDodge(a.r, b.r),
+                        g = ColorBlends.ColorDodge(a.g, b.g),
+                        b = ColorBlends.ColorDodge(a.b, b.b)
+                    };
 
                     c = ((1f - b.a) * a) + (b.a * c);
                     c.a = a.a + b.a * (1f - a.a);
@@ -194,24 +171,22 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture ColorBurn(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket ColorBurn(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
-                    var c = new InternalColor();
-
-                    c.r = ColorBlends.ColorBurn(a.r, b.r);
-                    c.g = ColorBlends.ColorBurn(a.g, b.g);
-                    c.b = ColorBlends.ColorBurn(a.b, b.b);
+                    var c = new InternalColor {
+                        r = ColorBlends.ColorBurn(a.r, b.r),
+                        g = ColorBlends.ColorBurn(a.g, b.g),
+                        b = ColorBlends.ColorBurn(a.b, b.b)
+                    };
 
                     c = ((1f - b.a) * a) + (b.a * c);
                     c.a = a.a + b.a * (1f - a.a);
@@ -220,24 +195,22 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture HardLight(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket HardLight(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
-                    var c = new InternalColor();
-
-                    c.r = ColorBlends.HardLight(a.r, b.r);
-                    c.g = ColorBlends.HardLight(a.g, b.g);
-                    c.b = ColorBlends.HardLight(a.b, b.b);
+                    var c = new InternalColor {
+                        r = ColorBlends.HardLight(a.r, b.r),
+                        g = ColorBlends.HardLight(a.g, b.g),
+                        b = ColorBlends.HardLight(a.b, b.b)
+                    };
 
                     c = ((1f - b.a) * a) + (b.a * c);
                     c.a = a.a + b.a * (1f - a.a);
@@ -246,24 +219,22 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture SoftLight(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket SoftLight(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
-                    var c = new InternalColor();
-
-                    c.r = ColorBlends.SoftLight(a.r, b.r);
-                    c.g = ColorBlends.SoftLight(a.g, b.g);
-                    c.b = ColorBlends.SoftLight(a.b, b.b);
+                    var c = new InternalColor {
+                        r = ColorBlends.SoftLight(a.r, b.r),
+                        g = ColorBlends.SoftLight(a.g, b.g),
+                        b = ColorBlends.SoftLight(a.b, b.b)
+                    };
 
                     c = ((1f - b.a) * a) + (b.a * c);
                     c.a = a.a + b.a * (1f - a.a);
@@ -272,24 +243,22 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture Difference(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Difference(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
-                    var c = new InternalColor();
-
-                    c.r = ColorBlends.Difference(a.r, b.r);
-                    c.g = ColorBlends.Difference(a.g, b.g);
-                    c.b = ColorBlends.Difference(a.b, b.b);
+                    var c = new InternalColor {
+                        r = ColorBlends.Difference(a.r, b.r),
+                        g = ColorBlends.Difference(a.g, b.g),
+                        b = ColorBlends.Difference(a.b, b.b)
+                    };
 
                     c = ((1f - b.a) * a) + (b.a * c);
                     c.a = a.a + b.a * (1f - a.a);
@@ -298,24 +267,22 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture Exclusion(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Exclusion(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
-                    var c = new InternalColor();
-
-                    c.r = ColorBlends.Exclusion(a.r, b.r);
-                    c.g = ColorBlends.Exclusion(a.g, b.g);
-                    c.b = ColorBlends.Exclusion(a.b, b.b);
+                    var c = new InternalColor {
+                        r = ColorBlends.Exclusion(a.r, b.r),
+                        g = ColorBlends.Exclusion(a.g, b.g),
+                        b = ColorBlends.Exclusion(a.b, b.b)
+                    };
 
                     c = ((1f - b.a) * a) + (b.a * c);
                     c.a = a.a + b.a * (1f - a.a);
@@ -324,18 +291,16 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
 
 
-        public ITexture Hue(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Hue(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
@@ -351,16 +316,14 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture Saturation(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Saturation(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
@@ -376,16 +339,14 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture Color(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Color(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
@@ -398,16 +359,14 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
-        public ITexture Luminosity(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Luminosity(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
@@ -422,17 +381,15 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
 
-        public ITexture Addition(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Addition(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
@@ -445,17 +402,15 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
 
-        public ITexture Subtract(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Subtract(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
@@ -468,17 +423,15 @@ namespace AsefileSharp.Utils {
                 }
             }
 
-            newLayer.Apply();
-
             return newLayer;
         }
 
 
-        public ITexture Divide(ITexture baseLayer, ITexture layer) {
-            var newLayer = _builder.CreateTexture(baseLayer.width, baseLayer.height);
+        public PixelBucket Divide(PixelBucket baseLayer, PixelBucket layer) {
+            var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
-            for (int x = 0; x < baseLayer.width; x++) {
-                for (int y = 0; y < baseLayer.height; y++) {
+            for (int x = 0; x < baseLayer.Width; x++) {
+                for (int y = 0; y < baseLayer.Height; y++) {
                     var a = baseLayer.GetPixel(x, y);
                     var b = layer.GetPixel(x, y);
 
@@ -494,8 +447,6 @@ namespace AsefileSharp.Utils {
                     newLayer.SetPixel(x, y, c);
                 }
             }
-
-            newLayer.Apply();
 
             return newLayer;
         }

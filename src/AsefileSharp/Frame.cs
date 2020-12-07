@@ -5,10 +5,35 @@ using System.IO;
 namespace AsefileSharp {
     public class Frame {
         public AseFile File = null;
-
+        /// <summary>
+        /// Gets the number of bytes in this frame.
+        /// </summary>
+        /// <value>
+        /// The length.
+        /// </value>
         public uint Length { get; private set; }
+
+        /// <summary>
+        /// Gets the magic number. Always 0xF1Fa.
+        /// </summary>
+        /// <value>
+        /// The magic number.
+        /// </value>
         public ushort MagicNumber { get; private set; }
+        /// <summary>
+        /// Gets the chunks count.
+        /// </summary>
+        /// <value>
+        /// The chunks count.
+        /// </value>
         public ushort ChunksCount { get; private set; }
+
+        /// <summary>
+        /// Gets the duration of the frame in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The duration of the frame.
+        /// </value>
         public ushort FrameDuration { get; private set; }
 
         public List<Chunk> Chunks { get; private set; }

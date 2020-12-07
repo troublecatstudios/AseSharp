@@ -4,6 +4,12 @@ using System.IO.Compression;
 namespace AsefileSharp.Chunks {
     public class CompressedCelChunk : CelChunk {
 
+        /// <summary>
+        /// Gets the compressed raw cell.
+        /// </summary>
+        /// <value>
+        /// The compressed raw cell.
+        /// </value>
         public byte[] CompressedRawCell { get; private set; }
 
         public CompressedCelChunk(uint length, ushort layerIndex, short x, short y, byte opacity, Frame frame, BinaryReader reader) : base(length, layerIndex, x, y, opacity, CelType.Compressed) {

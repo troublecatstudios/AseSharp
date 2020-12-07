@@ -3,6 +3,7 @@ using System.Drawing;
 
 namespace AsefileSharp.NetCore {
     public struct FxColor : IColor {
+        private const float ColorMax = 255f;
         private float _r;
         private float _g;
         private float _b;
@@ -25,9 +26,9 @@ namespace AsefileSharp.NetCore {
         }
 
         public FxColor(IColor color) : this(color.r, color.g, color.b, color.a) { }
-        public FxColor(Color color) : this(color.R, color.G, color.B, color.A) { }
+        public FxColor(Color color) : this(color.R / ColorMax, color.G / ColorMax, color.B / ColorMax, color.A / ColorMax) { }
 
-        public static implicit operator Color(FxColor color) => Color.FromArgb((int)color.r, (int)color.g, (int)color.b, (int)color.a);
+        public static implicit operator Color(FxColor color) => Color.FromArgb((int)(color.a * ColorMax), (int)(color.r * ColorMax), (int)(color.g * ColorMax), (int)(color.b * ColorMax));
         public static implicit operator InternalColor(FxColor color) => new InternalColor(color);
         public static implicit operator FxColor(Color color) => new FxColor(color);
     }

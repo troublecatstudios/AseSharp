@@ -4,24 +4,26 @@ using AsefileSharp.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 
 namespace AsefileSharp {
 
-    // See file specs here: https://github.com/aseprite/aseprite/blob/master/docs/ase-file-specs.md
-
+    /// <summary>
+    /// Represents a *.ase or *.aseprite file
+    /// </summary>
+    /// <remarks>
+    /// See file specs here: https://github.com/aseprite/aseprite/blob/master/docs/ase-file-specs.md
+    /// </remarks>
     public class AseFile {
-        public Header Header { get; private set; }
-        public List<Frame> Frames { get; private set; }
-
         private readonly Dictionary<Type, Chunk> chunkCache = new Dictionary<Type, Chunk>();
-        private readonly ITextureBuilder _builder;
         private readonly Texture2DBlender _blender;
 
-        public AseFile(Stream stream, ITextureBuilder builder, Texture2DBlender blender = null) {
-            _builder = builder;
-            _blender = blender ?? new Texture2DBlender(_builder);
+        public Header Header { get; private set; }
+        public List<Frame> Frames { get; private set; }
+        public List<LayerChunk> Layers => GetChunks<LayerChunk>();
+
+        public AseFile(Stream stream, Texture2DBlender blender = null) {
+            _blender = blender ?? new Texture2DBlender();
             BinaryReader reader = new BinaryReader(stream);
             byte[] header = reader.ReadBytes(128);
 
@@ -32,7 +34,6 @@ namespace AsefileSharp {
                 Frames.Add(new Frame(this, reader));
             }
         }
-
 
         public List<T> GetChunks<T>() where T : Chunk {
             List<T> chunks = new List<T>();
@@ -61,23 +62,23 @@ namespace AsefileSharp {
             return (T)chunkCache[typeof(T)];
         }
 
-        public ITexture[] GetFrames() {
-            var frames = new List<ITexture>();
+        public PixelBucket[] GetFrames() {
+            var frames = new List<PixelBucket>();
 
             for (int i = 0; i < Frames.Count; i++) {
-                frames.Add(GetFrame(i));
+                frames.Add(GetFramePixels(i));
             }
 
             return frames.ToArray();
         }
 
 
-        public ITexture[] GetLayersAsFrames() {
-            var frames = new List<ITexture>();
+        public PixelBucket[] GetLayersAsFrames() {
+            var frames = new List<PixelBucket>();
             var layers = GetChunks<LayerChunk>();
 
             for (int i = 0; i < layers.Count; i++) {
-                var layerFrames = GetLayerTexture(i, layers[i]);
+                var layerFrames = GetLayerPixels(i, layers[i]);
 
                 if (layerFrames.Count > 0) {
                     frames.AddRange(layerFrames);
@@ -105,8 +106,8 @@ namespace AsefileSharp {
             return null;
         }
 
-        public List<ITexture> GetLayerTexture(int layerIndex, LayerChunk layer) {
-            var textures = new List<ITexture>();
+        public List<PixelBucket> GetLayerPixels(int layerIndex, LayerChunk layer) {
+            var textures = new List<PixelBucket>();
 
             for (int frameIndex = 0; frameIndex < Frames.Count; frameIndex++) {
                 var frame = Frames[frameIndex];
@@ -133,8 +134,8 @@ namespace AsefileSharp {
                     if (visibility == false || layer.LayerType == LayerType.Group)
                         continue;
 
-                    var tex = GetTextureFromCel(cels[i]);
-                    tex.name = $"{layer.LayerName}_{i}";
+                    var tex = GetCelPixels(cels[i]);
+                    tex.Name = $"{layer.LayerName}_{i}";
                     textures.Add(tex);
                 }
             }
@@ -142,9 +143,9 @@ namespace AsefileSharp {
             return textures;
         }
 
-        public ITexture GetFrame(int index) {
+        public PixelBucket GetFramePixels(int index) {
             var frame = Frames[index];
-            var texture = _builder.CreateTexture(Header.Width, Header.Height, setTransparent: true);
+            var texture = new PixelBucket(Header.Width, Header.Height);
             var layers = GetChunks<LayerChunk>();
             var cels = frame.GetChunks<CelChunk>();
 
@@ -173,7 +174,7 @@ namespace AsefileSharp {
                 if (visibility == false || layer.LayerType == LayerType.Group)
                     continue;
 
-                var celTex = GetTextureFromCel(cels[i]);
+                var celTex = GetCelPixels(cels[i]);
 
                 switch (blendMode) {
                     case LayerBlendMode.Normal: texture = _blender.Normal(texture, celTex); break;
@@ -198,17 +199,16 @@ namespace AsefileSharp {
                 }
             }
 
-            texture.name = $"{index}";
+            texture.Name = $"{index}";
 
             return texture;
         }
 
-        public ITexture GetTextureFromCel(CelChunk cel) {
+        private PixelBucket GetCelPixels(CelChunk cel) {
             int canvasWidth = Header.Width;
             int canvasHeight = Header.Height;
 
-            var texture = _builder.CreateTexture(canvasWidth, canvasHeight, setTransparent: true);
-            InternalColor[] colors = new InternalColor[canvasWidth * canvasHeight];
+            var texture = new PixelBucket(canvasWidth, canvasHeight);
 
             int pixelIndex = 0;
             int celXEnd = cel.Width + cel.X;
@@ -223,16 +223,13 @@ namespace AsefileSharp {
 
                 for (int x = cel.X; x < celXEnd; x++) {
                     if (x >= 0 && x < canvasWidth) {
-                        int index = (canvasHeight - 1 - y) * canvasWidth + x;
-                        colors[index] = cel.RawPixelData[pixelIndex].GetColor();
+                        var color = cel.RawPixelData[pixelIndex].GetColor();
+                        texture.SetPixel(x, y, color);
                     }
 
                     ++pixelIndex;
                 }
             }
-
-            texture.SetPixels(0, 0, canvasWidth, canvasHeight, colors.Cast<IColor>());
-            texture.Apply();
 
             return texture;
         }
@@ -251,72 +248,25 @@ namespace AsefileSharp {
             return animations.ToArray();
         }
 
-        public MetaData[] GetMetaData(int spritePivotX, int spritePivotY, int pixelsPerUnit) {
-            var metadatas = new Dictionary<int, MetaData>();
-
-            for (int index = 0; index < Frames.Count; index++) {
-                var layers = GetChunks<LayerChunk>();
-                var cels = Frames[index].GetChunks<CelChunk>();
-
-                cels.Sort((ca, cb) => ca.LayerIndex.CompareTo(cb.LayerIndex));
-
-                for (int i = 0; i < cels.Count; i++) {
-                    var layerIndex = cels[i].LayerIndex;
-                    var layer = layers[layerIndex];
-                    if (!layer.LayerName.StartsWith(MetaData.MetaDataChar)) //read only metadata layer
-                        continue;
-
-                    if (!metadatas.ContainsKey(layerIndex))
-                        metadatas[layerIndex] = new MetaData(layer.LayerName);
-                    var metadata = metadatas[layerIndex];
-
-                    var cel = cels[i];
-                    var centerX = 0f;
-                    var centerY = 0f;
-                    var pixelCount = 0;
-
-                    for (int y = 0; y < cel.Height; ++y) {
-                        for (int x = 0; x < cel.Width; ++x) {
-                            int texX = cel.X + x;
-                            int texY = -(cel.Y + y) + Header.Height - 1;
-                            var col = cel.RawPixelData[x + y * cel.Width];
-                            if (col.GetColor().a > 0.1f) {
-                                centerX += texX;
-                                centerY += texY;
-                                pixelCount++;
-                            }
-                        }
-                    }
-
-                    if (pixelCount > 0) {
-                        centerX /= pixelCount;
-                        centerY /= pixelCount;
-                        var pivotX = spritePivotX * Header.Width;
-                        var pivotY = spritePivotY * Header.Height;
-
-                        var posWorldX = (centerX - pivotX) / pixelsPerUnit + 1 * 0.5f / pixelsPerUnit;
-                        var posWorldY = (centerY - pivotY) / pixelsPerUnit + 1 * 0.5f / pixelsPerUnit;
-
-                        metadata.Transforms.Add(index, (posWorldX, posWorldY));
-                    }
-                }
-            }
-            return metadatas.Values.ToArray();
-        }
-
-        public ITexture GetTextureAtlas() {
+        public PixelBucket GetTexturePixels() {
             var frames = GetFrames();
-            var atlas = _builder.CreateTexture(Header.Width * frames.Length, Header.Height, setTransparent: true);
+            var atlas = new PixelBucket(Header.Width * frames.Length, Header.Height);
             var col = 0;
             var row = 0;
 
-            foreach (ITexture frame in frames) {
-                var x = col * Header.Width;
-                var y = atlas.height - (row + 1) * Header.Height;
+            foreach (var frame in frames) {
+                var startX = col * Header.Width;
+                var startY = atlas.Height - (row + 1) * Header.Height;
                 var width = Header.Width;
                 var height = Header.Height;
-                atlas.SetPixels((int)x, (int)y, (int)width, (int)height, frame.GetPixels().Cast<IColor>());
-                atlas.Apply();
+
+                int idx = 0;
+                foreach (var px in frame.Pixels) {
+                    var x = idx % width;
+                    var y = idx / width;
+                    atlas.SetPixel(startX + x, startY + y, px);
+                    idx++;
+                }
                 col++;
             }
 

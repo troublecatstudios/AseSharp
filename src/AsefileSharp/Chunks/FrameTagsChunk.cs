@@ -11,12 +11,40 @@ namespace AsefileSharp.Chunks {
 
 
     public class FrameTag {
+        /// <summary>
+        /// Gets the starting frame index.
+        /// </summary>
         public ushort FrameFrom { get; private set; }
+
+        /// <summary>
+        /// Gets the ending frame index.
+        /// </summary>
         public ushort FrameTo { get; private set; }
+
+        /// <summary>
+        /// Gets the animation type.
+        /// </summary>
+        /// <value>
+        /// The animation type.
+        /// </value>
         public LoopAnimation Animation { get; private set; }
         private byte[] ForFuture { get; set; } // 8 Bytes
+
+        /// <summary>
+        /// Gets or sets the color of the tag.
+        /// </summary>
+        /// <value>
+        /// The color of the tag.
+        /// </value>
         public InternalColor TagColor { get; set; } // 3 Bytes
-        // 1 Extra Byte
+                                                    // 1 Extra Byte
+
+        /// <summary>
+        /// Gets the name of the tag.
+        /// </summary>
+        /// <value>
+        /// The name of the tag.
+        /// </value>
         public string TagName { get; private set; }
 
         public FrameTag(BinaryReader reader) {
@@ -37,9 +65,21 @@ namespace AsefileSharp.Chunks {
     }
 
     public class FrameTagsChunk : Chunk {
+        /// <summary>
+        /// Gets the tag count.
+        /// </summary>
+        /// <value>
+        /// The tag count.
+        /// </value>
         public ushort TagCount { get; private set; }
         private byte[] ForFuture { get; set; } // 8 Bytes
 
+        /// <summary>
+        /// Gets the tags.
+        /// </summary>
+        /// <value>
+        /// The tags.
+        /// </value>
         public List<FrameTag> Tags { get; private set; }
 
         public FrameTagsChunk(uint length, BinaryReader reader) : base(length, ChunkType.FrameTags) {

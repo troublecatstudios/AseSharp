@@ -1,7 +1,19 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 namespace AsefileSharp.Chunks {
+    [Flags]
+    public enum LayerFlags : ushort {
+        Visible = 1,
+        Editable = 2,
+        LockMovement = 4,
+        Background = 8,
+        PreferLinkedCels = 16,
+        DisplayCollapsed = 32,
+        ReferenceLayer = 64,
+    }
+
     public enum LayerType : ushort {
         Normal = 0,
         Group = 1
@@ -30,22 +42,88 @@ namespace AsefileSharp.Chunks {
     }
 
     public class LayerChunk : Chunk {
-        public ushort Flags { get; private set; }
+        /// <summary>
+        /// Gets the flags.
+        /// </summary>
+        /// <value>
+        /// The flags.
+        /// </value>
+        public LayerFlags Flags { get; private set; }
+
+        /// <summary>
+        /// Gets the type of the layer.
+        /// </summary>
+        /// <value>
+        /// The type of the layer.
+        /// </value>
         public LayerType LayerType { get; private set; }
+
+        /// <summary>
+        /// Gets the layer child level.
+        /// </summary>
+        /// <value>
+        /// The layer child level.
+        /// </value>
         public ushort LayerChildLevel { get; private set; }
+
+        /// <summary>
+        /// Gets the default width of the layer.
+        /// </summary>
+        /// <value>
+        /// The default width of the layer.
+        /// </value>
         public ushort DefaultLayerWidth { get; private set; } // Ignored
+
+        /// <summary>
+        /// Gets the default height of the layer.
+        /// </summary>
+        /// <value>
+        /// The default height of the layer.
+        /// </value>
         public ushort DefaultLayerHeight { get; private set; } // Ignored
+
+        /// <summary>
+        /// Gets the blend mode.
+        /// </summary>
+        /// <value>
+        /// The blend mode.
+        /// </value>
         public LayerBlendMode BlendMode { get; private set; }
+
+        /// <summary>
+        /// Gets the opacity.
+        /// </summary>
+        /// <value>
+        /// The opacity.
+        /// </value>
         public byte Opacity { get; private set; }
 
+        /// <summary>
+        /// Gets the name of the layer.
+        /// </summary>
+        /// <value>
+        /// The name of the layer.
+        /// </value>
         public string LayerName { get; private set; }
 
-        public bool Visible {
-            get { return Flags % 2 == 1; }
-        }
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="LayerChunk"/> is visible.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if visible; otherwise, <c>false</c>.
+        /// </value>
+        public bool Visible => Flags.HasFlag(LayerFlags.Visible);
+
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="LayerChunk"/> is editable.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if editable; otherwise, <c>false</c>.
+        /// </value>
+        public bool Editable => Flags.HasFlag(LayerFlags.Editable);
 
         public LayerChunk(uint length, BinaryReader reader) : base(length, ChunkType.Layer) {
-            Flags = reader.ReadUInt16();
+            Flags = (LayerFlags)reader.ReadUInt16();
             LayerType = (LayerType)reader.ReadUInt16();
             LayerChildLevel = reader.ReadUInt16();
 

@@ -4,25 +4,19 @@ using System.Collections.Generic;
 
 namespace AsefileSharp.Utils {
     public static class ColorBlends {
-        public static float Multiply(float b, float s) {
-            return b * s;
-        }
+        public static float Multiply(float b, float s) => b * s;
 
-        public static float Screen(float b, float s) {
-            return b + s - (b * s);
-        }
+        public static float Screen(float b, float s) => b + s - (b * s);
 
-        public static float Overlay(float b, float s) {
-            return HardLight(s, b);
-        }
+        public static float Overlay(float b, float s) => HardLight(s, b);
 
-        public static float Darken(float b, float s) {
-            return InternalMath.Min(b, s);
-        }
+        public static float Darken(float b, float s) => InternalMath.Min(b, s);
 
-        public static float Lighten(float b, float s) {
-            return InternalMath.Max(b, s);
-        }
+        public static float Lighten(float b, float s) => InternalMath.Max(b, s);
+
+        public static float Difference(float b, float s) => Math.Abs(b - s);
+
+        public static float Exclusion(float b, float s) => b + s - 2 * b * s;
 
         // Color Dodge & Color Burn:  http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/pdf/pdfs/adobe_supplement_iso32000_1.pdf
         public static float ColorDodge(float b, float s) {
@@ -57,21 +51,13 @@ namespace AsefileSharp.Utils {
                 return b + (2 * s - 1) * (SoftLightD(b) - b);
         }
 
+
         internal static float SoftLightD(float x) {
             if (x <= 0.25)
                 return ((16 * x - 12) * x + 4) * x;
             else
                 return (float)Math.Sqrt(x);
         }
-
-        public static float Difference(float b, float s) {
-            return Math.Abs(b - s);
-        }
-
-        public static float Exclusion(float b, float s) {
-            return b + s - 2 * b * s;
-        }
-
         internal static float BlendDivide(float b, float s) {
             if (b == 0)
                 return 0;
@@ -80,12 +66,7 @@ namespace AsefileSharp.Utils {
             else
                 return b / s;
         }
-
-
-        internal static double Lum(IColor c) {
-            return (0.3 * c.r) + (0.59 * c.g) + (0.11 * c.b);
-        }
-
+        internal static double Lum(IColor c) => (0.3 * c.r) + (0.59 * c.g) + (0.11 * c.b);
         internal static InternalColor ClipColor(IColor c) {
             double l = Lum(c);
             float n = Math.Min(c.r, Math.Min(c.g, c.b));
@@ -105,10 +86,6 @@ namespace AsefileSharp.Utils {
 
             return new InternalColor(c);
         }
-
-
-
-
         internal static InternalColor SetLum(IColor c, double l) {
             double d = l - Lum(c);
             c.r = (float)(c.r + d);
@@ -117,17 +94,9 @@ namespace AsefileSharp.Utils {
 
             return ClipColor(c);
         }
-
-        internal static double Sat(IColor c) {
-            return Math.Max(c.r, Math.Max(c.g, c.b)) - Math.Min(c.r, Math.Min(c.g, c.b));
-        }
-
-        internal static double DMax(double x, double y) { return (x > y) ? x : y; }
-        internal static double DMin(double x, double y) { return (x < y) ? x : y; }
-
-
-
-
+        internal static double Sat(IColor c) => Math.Max(c.r, Math.Max(c.g, c.b)) - Math.Min(c.r, Math.Min(c.g, c.b));
+        internal static double DMax(double x, double y) => (x > y) ? x : y;
+        internal static double DMin(double x, double y) => (x < y) ? x : y;
         internal static InternalColor SetSat(IColor c, double s) {
             char cMin = GetMinComponent(c);
             char cMid = GetMidComponent(c);
@@ -154,10 +123,6 @@ namespace AsefileSharp.Utils {
 
             return new InternalColor(c);
         }
-
-
-
-
         internal static float GetComponent(IColor c, char component) {
             switch (component) {
                 case 'r': return c.r;
@@ -167,8 +132,6 @@ namespace AsefileSharp.Utils {
 
             return 0f;
         }
-
-
         internal static InternalColor SetComponent(IColor c, char component, float value) {
             switch (component) {
                 case 'r': c.r = value; break;
@@ -178,7 +141,6 @@ namespace AsefileSharp.Utils {
 
             return new InternalColor(c);
         }
-
         internal static char GetMinComponent(IColor c) {
             var r = new KeyValuePair<char, float>('r', c.r);
             var g = new KeyValuePair<char, float>('g', c.g);
@@ -186,7 +148,6 @@ namespace AsefileSharp.Utils {
 
             return MIN(r, MIN(g, b)).Key;
         }
-
         internal static char GetMidComponent(IColor c) {
             var r = new KeyValuePair<char, float>('r', c.r);
             var g = new KeyValuePair<char, float>('g', c.g);
@@ -194,7 +155,6 @@ namespace AsefileSharp.Utils {
 
             return MID(r, g, b).Key;
         }
-
         internal static char GetMaxComponent(IColor c) {
             var r = new KeyValuePair<char, float>('r', c.r);
             var g = new KeyValuePair<char, float>('g', c.g);
@@ -202,15 +162,8 @@ namespace AsefileSharp.Utils {
 
             return MAX(r, MAX(g, b)).Key;
         }
-
-        internal static KeyValuePair<char, float> MIN(KeyValuePair<char, float> x, KeyValuePair<char, float> y) {
-            return (x.Value < y.Value) ? x : y;
-        }
-
-        internal static KeyValuePair<char, float> MAX(KeyValuePair<char, float> x, KeyValuePair<char, float> y) {
-            return (x.Value > y.Value) ? x : y;
-        }
-
+        internal static KeyValuePair<char, float> MIN(KeyValuePair<char, float> x, KeyValuePair<char, float> y) => (x.Value < y.Value) ? x : y;
+        internal static KeyValuePair<char, float> MAX(KeyValuePair<char, float> x, KeyValuePair<char, float> y) => (x.Value > y.Value) ? x : y;
         internal static KeyValuePair<char, float> MID(KeyValuePair<char, float> x, KeyValuePair<char, float> y, KeyValuePair<char, float> z) {
             List<KeyValuePair<char, float>> components = new List<KeyValuePair<char, float>>();
             components.Add(x);

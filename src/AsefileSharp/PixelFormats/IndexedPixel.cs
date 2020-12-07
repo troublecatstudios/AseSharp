@@ -2,6 +2,12 @@
 
 namespace AsefileSharp.PixelFormats {
     public class IndexedPixel : Pixel {
+        /// <summary>
+        /// Gets the index.
+        /// </summary>
+        /// <value>
+        /// The index.
+        /// </value>
         public byte Index { get; private set; }
 
         public IndexedPixel(Frame frame, byte index) : base(frame) {
