@@ -1,7 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <RepositoryUrl>https://github.com/troublecatstudios/AsefileSharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
 </Project>
