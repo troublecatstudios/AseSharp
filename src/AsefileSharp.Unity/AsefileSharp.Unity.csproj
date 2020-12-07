@@ -9,4 +9,10 @@
   <ItemGroup>
     <ProjectReference Include="..\AsefileSharp\AsefileSharp.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\lib\Unity\2020.1.0f1\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
