@@ -1,6 +1,7 @@
 name: Publish AsefileSharp.Unity
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - stable

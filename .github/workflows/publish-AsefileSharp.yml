@@ -1,6 +1,7 @@
 name: Publish AsefileSharp
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - stable
