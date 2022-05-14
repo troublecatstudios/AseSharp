@@ -12,7 +12,9 @@ namespace AsefileSharp {
         Path = 0x2017, // NEVER USED
         FrameTags = 0x2018,
         Palette = 0x2019,
-        UserData = 0x2020
+        UserData = 0x2020,
+        Slice = 0x2022,
+        TileSet = 0x2023
     }
 
     public class Chunk {
@@ -48,8 +50,8 @@ namespace AsefileSharp {
         /// <param name="reader">The reader.</param>
         /// <returns></returns>
         public static Chunk ReadChunk(Frame frame, BinaryReader reader) {
-            uint length = reader.ReadUInt32();
-            ChunkType type = (ChunkType)reader.ReadUInt16();
+            uint length = reader.ReadAsepriteDword();
+            ChunkType type = (ChunkType)reader.ReadAsepriteWord();
 
             switch (type) {
                 case ChunkType.Cel:
@@ -62,6 +64,8 @@ namespace AsefileSharp {
                     return new FrameTagsChunk(length, reader) { Frame = frame };
                 case ChunkType.Palette:
                     return new PaletteChunk(length, reader) { Frame = frame };
+                case ChunkType.Slice:
+                    return new SliceChunk(length, reader) { Frame = frame };
             }
 
             reader.BaseStream.Position += length - Chunk.HEADER_SIZE;
