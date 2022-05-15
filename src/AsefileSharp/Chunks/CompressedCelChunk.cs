@@ -42,7 +42,6 @@ namespace AsefileSharp.Chunks {
                 }
             }
 
-
             uncompressed.Position = 0;
             BinaryReader ureader = new BinaryReader(uncompressed);
 
