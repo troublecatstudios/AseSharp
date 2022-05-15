@@ -16,8 +16,8 @@ on:
       - 'src/AsefileSharp.Unity/**/*.cs'
       - 'src/AsefileSharp.Unity/*.csproj'
 env:  
-  APP_NAME: AsefileSharp.Unity                             # set this to your application's name
-  NETCORE_VERSION: '3.1.200'                                 # set this to the .NET Core version to use
+  APP_NAME: AsefileSharp.Unity                               # set this to your application's name
+  NETCORE_VERSION: 'net6.0'                                  # set this to the .NET Core version to use
   GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}    # set this to access token to github.com
   GITHUB_API_KEY: ${{ github.token }}                        # set this to access token to github.com
 
