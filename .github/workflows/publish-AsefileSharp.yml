@@ -17,7 +17,7 @@ on:
       - 'src/AsefileSharp/*.csproj'
 env:  
   APP_NAME: AsefileSharp                                     # set this to your application's name
-  NETCORE_VERSION: '3.1.200'                                 # set this to the .NET Core version to use
+  NETCORE_VERSION: '6.0.x'                                   # set this to the .NET Core version to use
   GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}    # set this to access token to github.com
   GITHUB_API_KEY: ${{ github.token }}                        # set this to access token to github.com
 
@@ -29,7 +29,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v1
       - name: Setup .NET Core ${{ env.NETCORE_VERSION }}
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ env.NETCORE_VERSION }}
       - name: Build solution and generate NuGet package
