@@ -1,0 +1,10 @@
+apiRules:
+- include: # The namespaces to generate
+    uidRegex: ^NoirUnityEditor
+    type: Namespace
+- include:
+    uidRegex: ^Noir\.Unity
+    type: Namespace
+- exclude:
+    uidRegex: .* # Every other namespaces are ignored
+    type: Namespace
