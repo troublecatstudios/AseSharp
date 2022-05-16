@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30709.132
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{082E81FE-8C5D-42F0-A547-F0C57C43F9DA}"
 EndProject
@@ -11,11 +11,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsefileSharp.Unity", "src\A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsefileSharp.NetCore", "src\AsefileSharp.NetCore\AsefileSharp.NetCore.csproj", "{E9CD4847-909D-42F1-8016-A118EC7090FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RimlightMaker", "tests\integration\apps\rimlight\RimlightMaker\RimlightMaker\RimlightMaker.csproj", "{E9AD1274-DC63-463B-B673-7D838D339083}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RimlightMaker", "tests\integration\apps\rimlight\RimlightMaker\RimlightMaker\RimlightMaker.csproj", "{E9AD1274-DC63-463B-B673-7D838D339083}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{717BBFCE-133D-4F0F-9EB2-69AC49510700}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsefileSharp.Unity.Tests", "tests\unit\AsefileSharp.Unity.Tests\AsefileSharp.Unity.Tests\AsefileSharp.Unity.Tests.csproj", "{4F94B143-3B6F-4264-9957-36606B841099}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsefileSharp.Unity.Tests", "tests\unit\AsefileSharp.Unity.Tests\AsefileSharp.Unity.Tests\AsefileSharp.Unity.Tests.csproj", "{4F94B143-3B6F-4264-9957-36606B841099}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AseFileSharp.Tests", "tests\unit\AseFileSharp.Tests\AseFileSharp.Tests.csproj", "{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsefileSharp.IntegrationTests", "tests\integration\AsefileSharp.IntegrationTests\AsefileSharp.IntegrationTests.csproj", "{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{B736341B-0806-4BAD-9E7A-BBA09270BA4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +93,30 @@ Global
 		{4F94B143-3B6F-4264-9957-36606B841099}.Release|x64.Build.0 = Release|Any CPU
 		{4F94B143-3B6F-4264-9957-36606B841099}.Release|x86.ActiveCfg = Release|Any CPU
 		{4F94B143-3B6F-4264-9957-36606B841099}.Release|x86.Build.0 = Release|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Debug|x64.Build.0 = Debug|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Debug|x86.Build.0 = Debug|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Release|x64.ActiveCfg = Release|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Release|x64.Build.0 = Release|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Release|x86.ActiveCfg = Release|Any CPU
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0}.Release|x86.Build.0 = Release|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Debug|x64.Build.0 = Debug|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Debug|x86.Build.0 = Debug|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Release|x64.ActiveCfg = Release|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Release|x64.Build.0 = Release|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Release|x86.ActiveCfg = Release|Any CPU
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +127,9 @@ Global
 		{E9CD4847-909D-42F1-8016-A118EC7090FF} = {082E81FE-8C5D-42F0-A547-F0C57C43F9DA}
 		{E9AD1274-DC63-463B-B673-7D838D339083} = {717BBFCE-133D-4F0F-9EB2-69AC49510700}
 		{4F94B143-3B6F-4264-9957-36606B841099} = {717BBFCE-133D-4F0F-9EB2-69AC49510700}
+		{0E87F2D1-418D-469D-9FE0-44AD817DA4F0} = {717BBFCE-133D-4F0F-9EB2-69AC49510700}
+		{6A422E4E-CF45-4762-B0FB-D347AE0BA5B8} = {717BBFCE-133D-4F0F-9EB2-69AC49510700}
+		{B736341B-0806-4BAD-9E7A-BBA09270BA4A} = {717BBFCE-133D-4F0F-9EB2-69AC49510700}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E38D188B-4177-4DDC-8F58-0767693E540F}

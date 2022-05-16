@@ -107,29 +107,34 @@ namespace AsefileSharp {
             Stream stream = new MemoryStream(header);
             BinaryReader reader = new BinaryReader(stream);
 
-            FileSize = reader.ReadUInt32();         // File size
-            MagicNumber = reader.ReadUInt16();      // Magic number (0xA5E0)
-            Frames = reader.ReadUInt16();           // Frames
-            Width = reader.ReadUInt16();            // Width in pixels
-            Height = reader.ReadUInt16();           // Height in pixels
-            ColorDepth = (ColorDepth)reader.ReadUInt16();       // Color depth (bits per pixel) [32 bpp = RGBA, 16 bpp = Grayscale, 8 bpp Indexed]
-            Flags = reader.ReadUInt32();            // Flags: 1 = Layer opacity has valid value
+            FileSize = reader.ReadAsepriteDword();                      // File size
+            MagicNumber = reader.ReadAsepriteWord();                    // Magic number (0xA5E0)
+
+            if (MagicNumber != 0xA5E0) {
+                throw new Exception("File is not in .ase format");
+            }
+
+            Frames = reader.ReadAsepriteWord();                         // Frames
+            Width = reader.ReadAsepriteWord();                          // Width in pixels
+            Height = reader.ReadAsepriteWord();                         // Height in pixels
+            ColorDepth = (ColorDepth)reader.ReadAsepriteWord();         // Color depth (bits per pixel) [32 bpp = RGBA, 16 bpp = Grayscale, 8 bpp Indexed]
+            Flags = reader.ReadAsepriteDword();                         // Flags: 1 = Layer opacity has valid value
 #pragma warning disable CS0618 // Type or member is obsolete
-            Speed = reader.ReadUInt16();            // Speed (milliseconds between frame, like in FLC files) DEPRECATED: You should use the frame duration field from each frame header
+            Speed = reader.ReadAsepriteWord();                          // Speed (milliseconds between frame, like in FLC files) DEPRECATED: You should use the frame duration field from each frame header
 #pragma warning restore CS0618 // Type or member is obsolete
 
-            reader.ReadUInt32();                    // Set be 0
-            reader.ReadUInt32();                    // Set be 0
+            reader.ReadAsepriteDword();                                 // Set be 0
+            reader.ReadAsepriteDword();                                 // Set be 0
 
-            TransparentIndex = reader.ReadByte();   // Palette entry (index) which represent transparent color in all non-background layers (only for Indexed sprites)
+            TransparentIndex = reader.ReadAsepriteByte();               // Palette entry (index) which represent transparent color in all non-background layers (only for Indexed sprites)
 
-            reader.ReadBytes(3);                    // Ignore these bytes
+            reader.ReadAsepriteBytes(3);                                // Ignore these bytes
 
-            ColorCount = reader.ReadUInt16();       // Number of colors (0 means 256 for old sprites)
-            PixelWidth = reader.ReadByte();         // Pixel width (pixel ratio is "pixel width/pixel height"). If pixel height field is zero, pixel ratio is 1:1
-            PixelHeight = reader.ReadByte();        // Pixel height
+            ColorCount = reader.ReadAsepriteWord();                     // Number of colors (0 means 256 for old sprites)
+            PixelWidth = reader.ReadAsepriteByte();                     // Pixel width (pixel ratio is "pixel width/pixel height"). If pixel height field is zero, pixel ratio is 1:1
+            PixelHeight = reader.ReadAsepriteByte();                    // Pixel height
 
-            reader.ReadBytes(92);                   // For future
+            reader.ReadAsepriteBytes(92);                               // For future
         }
 
     }

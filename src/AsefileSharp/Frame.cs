@@ -59,16 +59,6 @@ namespace AsefileSharp {
             }
         }
 
-        public T GetChunk<T>() where T : Chunk {
-            for (int i = 0; i < Chunks.Count; i++) {
-                if (Chunks[i] is T) {
-                    return (T)Chunks[i];
-                }
-            }
-
-            return null;
-        }
-
         public T GetCelChunk<T>(int layerIndex) where T : CelChunk {
             for (int i = 0; i < Chunks.Count; i++) {
                 if (Chunks[i] is T && (Chunks[i] as CelChunk).LayerIndex == layerIndex) {
