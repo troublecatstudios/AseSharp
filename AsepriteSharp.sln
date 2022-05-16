@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsepriteSharp.NetCore", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsepriteSharp.Unity", "src\AsepriteSharp.Unity\AsepriteSharp.Unity.csproj", "{CD002F04-9A2D-4AB1-8EB3-EE4A5AA713D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsepriteSharp.Tests.Integration", "tests\AsespriteSharp.Tests.Integration\AsepriteSharp.Tests.Integration.csproj", "{EF387678-8570-4274-8C90-F3FBC47B0F49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsepriteSharp.Tests.Integration", "tests\AsepriteSharp.Tests.Integration\AsepriteSharp.Tests.Integration.csproj", "{EF387678-8570-4274-8C90-F3FBC47B0F49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

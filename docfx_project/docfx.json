@@ -4,9 +4,9 @@
       "src": [
         {
           "files": [
-            "src/AsespriteSharp/AsespriteSharp.csproj",
-            "src/AsespriteSharp.NetCore/AsespriteSharp.NetCore.csproj",
-            "src/AsespriteSharp.Unity/AsespriteSharp.Unity.csproj"
+            "src/AsepriteSharp/AsepriteSharp.csproj",
+            "src/AsepriteSharp.NetCore/AsepriteSharp.NetCore.csproj",
+            "src/AsepriteSharp.Unity/AsepriteSharp.Unity.csproj"
           ],
           "src": "../"
         }
