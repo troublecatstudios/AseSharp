@@ -82,7 +82,7 @@ namespace AsepriteSharp.IntegrationTests {
 
         private string GetResourcePath(string resourceName) {
             // get the root directory
-            var resourcesAbsolutePath = Path.Combine(ProjectSourcePath.Value, "../../", ResourcesDirectory);
+            var resourcesAbsolutePath = Path.Combine(ProjectSourcePath.Value, "../", ResourcesDirectory);
             if (!resourceName.EndsWith(".aseprite")) {
                 resourceName += ".aseprite";
             }
