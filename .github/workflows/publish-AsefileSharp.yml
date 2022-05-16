@@ -6,17 +6,17 @@ on:
     branches:
       - stable
     paths:
-      - 'src/AsefileSharp/**/*.cs'
-      - 'src/AsefileSharp/*.csproj'
+      - 'src/AsepriteSharp/**/*.cs'
+      - 'src/AsepriteSharp/*.csproj'
   pull_request:
     types: [closed]
     branches:
       - stable
     paths:
-      - 'src/AsefileSharp/**/*.cs'
-      - 'src/AsefileSharp/*.csproj'
+      - 'src/AsepriteSharp/**/*.cs'
+      - 'src/AsepriteSharp/*.csproj'
 env:  
-  APP_NAME: AsefileSharp                                     # set this to your application's name
+  APP_NAME: AsepriteSharp                                    # set this to your application's name
   NETCORE_VERSION: '6.0.x'                                   # set this to the .NET Core version to use
   GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}    # set this to access token to github.com
   GITHUB_API_KEY: ${{ github.token }}                        # set this to access token to github.com
