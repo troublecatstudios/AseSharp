@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/troublecatstudios/AsepriteSharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AsepriteSharp\AsepriteSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\lib\Unity\2020.1.0f1\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
