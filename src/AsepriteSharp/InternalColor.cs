@@ -59,7 +59,8 @@ namespace AsepriteSharp {
         }
 
         // also required for being able to use Colors as keys in hash tables
-        public override bool Equals(object other) {
+        public override bool Equals(object? other) {
+            if (other == null) return false;
             if (!(other is IColor)) return false;
 
             return Equals((IColor)other);

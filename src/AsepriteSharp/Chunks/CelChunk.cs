@@ -1,5 +1,5 @@
-﻿using AsepriteSharp.PixelFormats;
-using System.IO;
+﻿using System.IO;
+using AsepriteSharp.PixelFormats;
 
 
 namespace AsepriteSharp.Chunks {
@@ -80,12 +80,14 @@ namespace AsepriteSharp.Chunks {
             Y = y;
             Opacity = opacity;
             CelType = type;
+            RawPixelData = System.Array.Empty<PixelBase>();
         }
 
         protected void ReadPixelData(BinaryReader reader, Frame frame) {
             int size = Width * Height;
             RawPixelData = new PixelBase[size];
 
+            if (frame.File == null) return;
             switch (frame.File.Header.ColorDepth) {
                 case ColorDepth.RGBA:
                     for (int i = 0; i < size; i++) {
@@ -111,7 +113,7 @@ namespace AsepriteSharp.Chunks {
             }
         }
 
-        public static CelChunk ReadCelChunk(uint length, BinaryReader reader, Frame frame) {
+        public static CelChunk? ReadCelChunk(uint length, BinaryReader reader, Frame frame) {
             ushort layerIndex = reader.ReadUInt16();
             short x = reader.ReadInt16();
             short y = reader.ReadInt16();
@@ -121,17 +123,12 @@ namespace AsepriteSharp.Chunks {
             reader.ReadBytes(7); // For Future
 
 
-            switch (type) {
-                case CelType.Raw:
-                    return new RawCelChunk(length, layerIndex, x, y, opacity, frame, reader);
-                case CelType.Linked:
-                    return new LinkedCelChunk(length, layerIndex, x, y, opacity, frame, reader);
-                case CelType.Compressed:
-                    return new CompressedCelChunk(length, layerIndex, x, y, opacity, frame, reader);
-            }
-
-
-            return null;
+            return type switch {
+                CelType.Raw => new RawCelChunk(length, layerIndex, x, y, opacity, frame, reader),
+                CelType.Linked => new LinkedCelChunk(length, layerIndex, x, y, opacity, frame, reader),
+                CelType.Compressed => new CompressedCelChunk(length, layerIndex, x, y, opacity, frame, reader),
+                _ => null,
+            };
         }
 
     }

@@ -1,10 +1,10 @@
-﻿using AsepriteSharp.Chunks;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using AsepriteSharp.Chunks;
 
 namespace AsepriteSharp {
     public class Frame {
-        public AsepriteFile File = null;
+        public AsepriteFile? File = null;
         /// <summary>
         /// Gets the number of bytes in this frame.
         /// </summary>
@@ -49,20 +49,20 @@ namespace AsepriteSharp {
 
             reader.ReadBytes(6); // For Future
 
-            Chunks = new List<AsepriteFileChunk>();
+            Chunks = new();
 
             for (int i = 0; i < ChunksCount; i++) {
-                AsepriteFileChunk chunk = AsepriteFileChunk.ReadChunk(this, reader);
-
+                var chunk = AsepriteFileChunk.ReadChunk(this, reader);
                 if (chunk != null)
                     Chunks.Add(chunk);
             }
         }
 
-        public T GetCelChunk<T>(int layerIndex) where T : CelChunk {
+        public T? GetCelChunk<T>(int layerIndex) where T : CelChunk {
+            if (Chunks == null) return null;
             for (int i = 0; i < Chunks.Count; i++) {
-                if (Chunks[i] is T && (Chunks[i] as CelChunk).LayerIndex == layerIndex) {
-                    return (T)Chunks[i];
+                if (Chunks[i] != null && Chunks[i] is T t && (Chunks[i] as CelChunk)?.LayerIndex == layerIndex) {
+                    return t;
                 }
             }
 
@@ -73,8 +73,8 @@ namespace AsepriteSharp {
             List<T> chunks = new List<T>();
 
             for (int i = 0; i < Chunks.Count; i++) {
-                if (Chunks[i] is T) {
-                    chunks.Add((T)Chunks[i]);
+                if (Chunks[i] is T t) {
+                    chunks.Add(t);
                 }
             }
 

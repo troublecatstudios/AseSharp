@@ -1,6 +1,6 @@
-﻿using AsepriteSharp.Abstractions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using AsepriteSharp.Abstractions;
 
 namespace AsepriteSharp.Utils {
     public static class ColorBlends {
@@ -165,10 +165,7 @@ namespace AsepriteSharp.Utils {
         internal static KeyValuePair<char, float> MIN(KeyValuePair<char, float> x, KeyValuePair<char, float> y) => (x.Value < y.Value) ? x : y;
         internal static KeyValuePair<char, float> MAX(KeyValuePair<char, float> x, KeyValuePair<char, float> y) => (x.Value > y.Value) ? x : y;
         internal static KeyValuePair<char, float> MID(KeyValuePair<char, float> x, KeyValuePair<char, float> y, KeyValuePair<char, float> z) {
-            List<KeyValuePair<char, float>> components = new List<KeyValuePair<char, float>>();
-            components.Add(x);
-            components.Add(z);
-            components.Add(y);
+            List<KeyValuePair<char, float>> components = new() { x, z, y };
 
 
             components.Sort((c1, c2) => { return c1.Value.CompareTo(c2.Value); });

@@ -29,7 +29,7 @@ namespace AsepriteSharp.NetCore {
         public FxColor(Color color) : this(color.R / ColorMax, color.G / ColorMax, color.B / ColorMax, color.A / ColorMax) { }
 
         public static implicit operator Color(FxColor color) => Color.FromArgb((int)(color.a * ColorMax), (int)(color.r * ColorMax), (int)(color.g * ColorMax), (int)(color.b * ColorMax));
-        public static implicit operator InternalColor(FxColor color) => new InternalColor(color);
-        public static implicit operator FxColor(Color color) => new FxColor(color);
+        public static implicit operator InternalColor(FxColor color) => new(color);
+        public static implicit operator FxColor(Color color) => new(color);
     }
 }

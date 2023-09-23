@@ -15,7 +15,7 @@ namespace AsepriteSharp.PixelFormats {
         }
 
         public override InternalColor GetColor() {
-            PaletteChunk palette = Frame.File.GetChunk<PaletteChunk>();
+            PaletteChunk? palette = Frame?.File?.GetChunk<PaletteChunk>();
 
             if (palette != null)
                 return palette.GetColor(Index);
