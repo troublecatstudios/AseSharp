@@ -59,6 +59,8 @@ namespace AsepriteSharp.Chunks {
             Blue = reader.ReadByte();
             Alpha = reader.ReadByte();
 
+            Name = string.Empty;
+
             if ((EntryFlags & 1) != 0) {
                 Name = reader.ReadString();
             }

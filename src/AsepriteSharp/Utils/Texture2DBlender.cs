@@ -4,7 +4,7 @@
 // Page 333
 namespace AsepriteSharp.Utils {
     public class Texture2DBlender {
-        public PixelBucket Normal(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Normal(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -22,7 +22,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket Multiply(PixelBucket baseLayer, PixelBucket layer, float opacity) {
+        public static PixelBucket Multiply(PixelBucket baseLayer, PixelBucket layer, float opacity) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -45,7 +45,7 @@ namespace AsepriteSharp.Utils {
         }
 
 
-        public PixelBucket Screen(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Screen(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -62,7 +62,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket Overlay(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Overlay(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -102,7 +102,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket Darken(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Darken(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -126,7 +126,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket Lighten(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Lighten(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -150,7 +150,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket ColorDodge(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket ColorDodge(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -174,7 +174,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket ColorBurn(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket ColorBurn(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -198,7 +198,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket HardLight(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket HardLight(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -222,7 +222,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket SoftLight(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket SoftLight(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -246,7 +246,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket Difference(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Difference(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -270,7 +270,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket Exclusion(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Exclusion(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -296,7 +296,7 @@ namespace AsepriteSharp.Utils {
 
 
 
-        public PixelBucket Hue(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Hue(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -319,7 +319,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket Saturation(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Saturation(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -342,7 +342,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket Color(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Color(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -362,7 +362,7 @@ namespace AsepriteSharp.Utils {
             return newLayer;
         }
 
-        public PixelBucket Luminosity(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Luminosity(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -385,7 +385,7 @@ namespace AsepriteSharp.Utils {
         }
 
 
-        public PixelBucket Addition(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Addition(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -406,7 +406,7 @@ namespace AsepriteSharp.Utils {
         }
 
 
-        public PixelBucket Subtract(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Subtract(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {
@@ -427,7 +427,7 @@ namespace AsepriteSharp.Utils {
         }
 
 
-        public PixelBucket Divide(PixelBucket baseLayer, PixelBucket layer) {
+        public static PixelBucket Divide(PixelBucket baseLayer, PixelBucket layer) {
             var newLayer = new PixelBucket(baseLayer.Width, baseLayer.Height);
 
             for (int x = 0; x < baseLayer.Width; x++) {

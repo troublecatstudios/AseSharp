@@ -1,7 +1,7 @@
-using AsepriteSharp.Chunks;
-using FluentAssertions;
 using System.IO;
 using System.Linq;
+using AsepriteSharp.Chunks;
+using FluentAssertions;
 using Xunit;
 
 namespace AsepriteSharp.IntegrationTests {
@@ -69,9 +69,9 @@ namespace AsepriteSharp.IntegrationTests {
             var slices = firstFrame.GetChunks<SliceChunk>();
             var slice = slices.Where(s => s.SliceName.Equals(expectedSliceName)).FirstOrDefault();
             slice.Should().NotBeNull();
-            slice.Entries.Should().HaveCount(1);
-            slice.Entries.First().PivotX.Should().Be(expectedPivotX);
-            slice.Entries.First().PivotY.Should().Be(expectedPivotY);
+            slice!.Entries.Should().HaveCount(1);
+            slice!.Entries.First().PivotX.Should().Be(expectedPivotX);
+            slice!.Entries.First().PivotY.Should().Be(expectedPivotY);
         }
 
         private AsepriteFile LoadFile(string path) {

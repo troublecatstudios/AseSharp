@@ -1,9 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace AsepriteSharp.Chunks {
     public class LinkedCelChunk : CelChunk {
-        private AsepriteFile file = null;
-        private CelChunk linkedCelChunk = null;
+        private readonly AsepriteFile? _file = null;
+        private CelChunk? _linkedCelChunk = null;
 
         /// <summary>
         /// Gets the linked cel.
@@ -11,13 +12,13 @@ namespace AsepriteSharp.Chunks {
         /// <value>
         /// The linked cel.
         /// </value>
-        public CelChunk LinkedCel {
+        public CelChunk? LinkedCel {
             get {
-                if (linkedCelChunk == null) {
-                    linkedCelChunk = file.Frames[FramePosition].GetCelChunk<CelChunk>(LayerIndex);
+                if (_linkedCelChunk == null && _file != null) {
+                    _linkedCelChunk = _file.Frames[FramePosition].GetCelChunk<CelChunk>(LayerIndex);
                 }
 
-                return linkedCelChunk;
+                return _linkedCelChunk;
             }
         }
 
@@ -29,12 +30,12 @@ namespace AsepriteSharp.Chunks {
         /// </value>
         public ushort FramePosition { get; private set; }
 
-        public override ushort Width { get { return LinkedCel.Width; } }
-        public override ushort Height { get { return LinkedCel.Height; } }
-        public override PixelBase[] RawPixelData { get { return LinkedCel.RawPixelData; } }
+        public override ushort Width => LinkedCel?.Width ?? 0;
+        public override ushort Height => LinkedCel?.Height ?? 0;
+        public override PixelBase[] RawPixelData => LinkedCel?.RawPixelData ?? Array.Empty<PixelBase>();
 
         public LinkedCelChunk(uint length, ushort layerIndex, short x, short y, byte opacity, Frame frame, BinaryReader reader) : base(length, layerIndex, x, y, opacity, CelType.Linked) {
-            file = frame.File;
+            _file = frame.File;
 
             FramePosition = reader.ReadUInt16();
         }

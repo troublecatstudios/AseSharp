@@ -20,7 +20,7 @@ namespace AsepriteSharp {
     public class AsepriteFileChunk {
         public const int HEADER_SIZE = 6;
 
-        protected Frame Frame = null;
+        protected Frame? Frame = null;
 
         /// <summary>
         /// Gets the length of the chunk in bytes.
@@ -49,7 +49,7 @@ namespace AsepriteSharp {
         /// <param name="frame">The frame.</param>
         /// <param name="reader">The reader.</param>
         /// <returns></returns>
-        public static AsepriteFileChunk ReadChunk(Frame frame, BinaryReader reader) {
+        public static AsepriteFileChunk? ReadChunk(Frame frame, BinaryReader reader) {
             uint length = reader.ReadAsepriteDword();
             ChunkType type = (ChunkType)reader.ReadAsepriteWord();
 

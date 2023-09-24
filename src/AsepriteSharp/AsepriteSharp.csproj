@@ -2,7 +2,22 @@
   <PropertyGroup>
     <RepositoryUrl>https://github.com/troublecatstudios/AsepriteSharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.2.0</Version>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>11</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>AsepriteSharp is a dotnet library that enables interacting with .ase and .aseprite files.</Description>
+    <Copyright>Jared Barboza</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Authors>Jared Barboza</Authors>
+    <PackageTags>tool;aseprite;library;</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>https://github.com/troublecatstudios/$(AssemblyName)/blob/stable/CHANGELOG.md</PackageReleaseNotes>
+    <PackageIcon>$(AssemblyName).png</PackageIcon>
+    <PackageProjectUrl>https://github.com/troublecatstudios/$(AssemblyName)</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 </Project>

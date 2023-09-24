@@ -1,9 +1,9 @@
-using AsepriteSharp.Abstractions;
-using AsepriteSharp.Chunks;
-using AsepriteSharp.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using AsepriteSharp.Abstractions;
+using AsepriteSharp.Chunks;
+using AsepriteSharp.Utils;
 
 
 namespace AsepriteSharp {
@@ -15,20 +15,20 @@ namespace AsepriteSharp {
     /// See file specs here: https://github.com/aseprite/aseprite/blob/master/docs/ase-file-specs.md
     /// </remarks>
     public class AsepriteFile {
-        private readonly Dictionary<Type, AsepriteFileChunk> chunkCache = new Dictionary<Type, AsepriteFileChunk>();
+        private readonly Dictionary<Type, AsepriteFileChunk> _chunkCache = new();
         private readonly Texture2DBlender _blender;
 
         public Header Header { get; private set; }
         public List<Frame> Frames { get; private set; }
         public List<LayerChunk> Layers => GetChunks<LayerChunk>();
 
-        public AsepriteFile(Stream stream, Texture2DBlender blender = null) {
+        public AsepriteFile(Stream stream, Texture2DBlender? blender = null) {
             _blender = blender ?? new Texture2DBlender();
-            BinaryReader reader = new BinaryReader(stream);
+            BinaryReader reader = new(stream);
             byte[] header = reader.ReadBytes(128);
 
             Header = new Header(header);
-            Frames = new List<Frame>();
+            Frames = new();
 
             while (reader.BaseStream.Position < reader.BaseStream.Length) {
                 Frames.Add(new Frame(this, reader));
@@ -36,7 +36,7 @@ namespace AsepriteSharp {
         }
 
         public List<T> GetChunks<T>() where T : AsepriteFileChunk {
-            List<T> chunks = new List<T>();
+            List<T> chunks = new();
 
             for (int i = 0; i < Frames.Count; i++) {
                 List<T> cs = Frames[i].GetChunks<T>();
@@ -48,18 +48,18 @@ namespace AsepriteSharp {
         }
 
         public T GetChunk<T>() where T : AsepriteFileChunk {
-            if (!chunkCache.ContainsKey(typeof(T))) {
+            if (!_chunkCache.ContainsKey(typeof(T))) {
                 for (int i = 0; i < Frames.Count; i++) {
                     List<T> cs = Frames[i].GetChunks<T>();
 
                     if (cs.Count > 0) {
-                        chunkCache.Add(typeof(T), cs[0]);
+                        _chunkCache.Add(typeof(T), cs[0]);
                         break;
                     }
                 }
             }
 
-            return (T)chunkCache[typeof(T)];
+            return (T)_chunkCache[typeof(T)];
         }
 
         public PixelBucket[] GetFrames() {
@@ -88,7 +88,7 @@ namespace AsepriteSharp {
             return frames.ToArray();
         }
 
-        private LayerChunk GetParentLayer(LayerChunk layer) {
+        private LayerChunk? GetParentLayer(LayerChunk layer) {
             if (layer.LayerChildLevel == 0)
                 return null;
 
@@ -177,25 +177,25 @@ namespace AsepriteSharp {
                 var celTex = GetCelPixels(cels[i]);
 
                 switch (blendMode) {
-                    case LayerBlendMode.Normal: texture = _blender.Normal(texture, celTex); break;
-                    case LayerBlendMode.Multiply: texture = _blender.Multiply(texture, celTex, opacity); break;
-                    case LayerBlendMode.Screen: texture = _blender.Screen(texture, celTex); break;
-                    case LayerBlendMode.Overlay: texture = _blender.Overlay(texture, celTex); break;
-                    case LayerBlendMode.Darken: texture = _blender.Darken(texture, celTex); break;
-                    case LayerBlendMode.Lighten: texture = _blender.Lighten(texture, celTex); break;
-                    case LayerBlendMode.ColorDodge: texture = _blender.ColorDodge(texture, celTex); break;
-                    case LayerBlendMode.ColorBurn: texture = _blender.ColorBurn(texture, celTex); break;
-                    case LayerBlendMode.HardLight: texture = _blender.HardLight(texture, celTex); break;
-                    case LayerBlendMode.SoftLight: texture = _blender.SoftLight(texture, celTex); break;
-                    case LayerBlendMode.Difference: texture = _blender.Difference(texture, celTex); break;
-                    case LayerBlendMode.Exclusion: texture = _blender.Exclusion(texture, celTex); break;
-                    case LayerBlendMode.Hue: texture = _blender.Hue(texture, celTex); break;
-                    case LayerBlendMode.Saturation: texture = _blender.Saturation(texture, celTex); break;
-                    case LayerBlendMode.Color: texture = _blender.Color(texture, celTex); break;
-                    case LayerBlendMode.Luminosity: texture = _blender.Luminosity(texture, celTex); break;
-                    case LayerBlendMode.Addition: texture = _blender.Addition(texture, celTex); break;
-                    case LayerBlendMode.Subtract: texture = _blender.Subtract(texture, celTex); break;
-                    case LayerBlendMode.Divide: texture = _blender.Divide(texture, celTex); break;
+                    case LayerBlendMode.Normal: texture = Texture2DBlender.Normal(texture, celTex); break;
+                    case LayerBlendMode.Multiply: texture = Texture2DBlender.Multiply(texture, celTex, opacity); break;
+                    case LayerBlendMode.Screen: texture = Texture2DBlender.Screen(texture, celTex); break;
+                    case LayerBlendMode.Overlay: texture = Texture2DBlender.Overlay(texture, celTex); break;
+                    case LayerBlendMode.Darken: texture = Texture2DBlender.Darken(texture, celTex); break;
+                    case LayerBlendMode.Lighten: texture = Texture2DBlender.Lighten(texture, celTex); break;
+                    case LayerBlendMode.ColorDodge: texture = Texture2DBlender.ColorDodge(texture, celTex); break;
+                    case LayerBlendMode.ColorBurn: texture = Texture2DBlender.ColorBurn(texture, celTex); break;
+                    case LayerBlendMode.HardLight: texture = Texture2DBlender.HardLight(texture, celTex); break;
+                    case LayerBlendMode.SoftLight: texture = Texture2DBlender.SoftLight(texture, celTex); break;
+                    case LayerBlendMode.Difference: texture = Texture2DBlender.Difference(texture, celTex); break;
+                    case LayerBlendMode.Exclusion: texture = Texture2DBlender.Exclusion(texture, celTex); break;
+                    case LayerBlendMode.Hue: texture = Texture2DBlender.Hue(texture, celTex); break;
+                    case LayerBlendMode.Saturation: texture = Texture2DBlender.Saturation(texture, celTex); break;
+                    case LayerBlendMode.Color: texture = Texture2DBlender.Color(texture, celTex); break;
+                    case LayerBlendMode.Luminosity: texture = Texture2DBlender.Luminosity(texture, celTex); break;
+                    case LayerBlendMode.Addition: texture = Texture2DBlender.Addition(texture, celTex); break;
+                    case LayerBlendMode.Subtract: texture = Texture2DBlender.Subtract(texture, celTex); break;
+                    case LayerBlendMode.Divide: texture = Texture2DBlender.Divide(texture, celTex); break;
                 }
             }
 
