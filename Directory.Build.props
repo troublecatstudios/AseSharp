@@ -1,3 +1,5 @@
-<PropertyGroup>
-  <Version>0.3.0</Version>
-</PropertyGroup>
+<Project>
+    <PropertyGroup>
+        <Version>0.3.0</Version>
+    </PropertyGroup>
+</Project>
