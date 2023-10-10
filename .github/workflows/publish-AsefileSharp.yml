@@ -2,6 +2,15 @@ name: Publish AsefileSharp
 
 on:
   workflow_dispatch:
+    inputs:
+      github:
+        type: boolean
+        description: Publish to GitHub Packages
+        default: true
+      nuget:
+        type: boolean
+        description: Publish to NuGet.org
+        default: true
   push:
     branches:
       - stable
@@ -39,9 +48,11 @@ jobs:
         working-directory: ./src/${{ env.APP_NAME }}
         run: dotnet nuget add source https://nuget.pkg.github.com/${{ env.GITHUB_REPOSITORY_OWNER }}/index.json --name github
       - name: Push generated packages to GitHub registry
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.github == true }}
         working-directory: ./src/${{ env.APP_NAME }}
         run: dotnet nuget push ./out/*.nupkg --source github --api-key ${{ env.GITHUB_API_KEY }} --skip-duplicate --no-symbols true
       - name: Push to public NuGet registry
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.nuget == true }}
         working-directory: ./src/${{ env.APP_NAME }}
         run: dotnet nuget push ./out/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
       - name: Upload NuGet package
