@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/troublecatstudios/AseSharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>11</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>AseSharp is a dotnet library that enables interacting with .ase and .aseprite files.</Description>
+    <Copyright>Jared Barboza</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Authors>Jared Barboza</Authors>
+    <PackageTags>tool;aseprite;library;</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>https://github.com/troublecatstudios/$(AssemblyName)/blob/stable/CHANGELOG.md</PackageReleaseNotes>
+    <PackageIcon>$(AssemblyName).png</PackageIcon>
+    <PackageProjectUrl>https://github.com/troublecatstudios/$(AssemblyName)</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="" />
+		<None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+		<None Include="..\..\resources\$(AssemblyName).png" Pack="true" Visible="false" PackagePath="" />
+	</ItemGroup>
+</Project>
