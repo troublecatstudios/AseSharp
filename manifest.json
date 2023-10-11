@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "D:/a/AsepriteSharp/AsepriteSharp/docfx_project",
+  "source_base_path": "D:/a/AseSharp/AseSharp/docfx_project",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "jlU26H60+E+j0MJaGgW2QE39cPmabIwwfU8bO7gvy84="
+          "hash": "GsK2BkQXaIoHLF90gjZFVMA2c++9inNMKgm0E09JHjQ="
         }
       },
       "is_incremental": false,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "ca/UQ1dh8CMJ0SZ/oIBxPdHys3H2v8J7BvumYi9X94Q="
+          "hash": "vQOINvAW1UcakKcBkYB2zav9NgGMgQIbDE6OC5O4uMY="
         }
       },
       "is_incremental": false,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "XwPQXnYIF/DK/J4GXFg5OfpYDAqfZ/ZcV6Wc+ErevC0="
+          "hash": "3Q4FxhFzZAugt9Lrd39PChNMKspq6XYZhh/RB3phSSk="
         }
       },
       "is_incremental": false,
